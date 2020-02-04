@@ -5,7 +5,7 @@ formNombres.addEventListener('submit', getData);
 
 function getData(event) {
     event.preventDefault();
-    //get option selected
+    //Obtencion datos del form
     let pais;
     let numNombres;
     let genero;
@@ -17,8 +17,8 @@ function getData(event) {
 
     numNombres = document.getElementById('numNombres').value;
 
-    console.log(pais, genero , numNombres);
     
+    //Armado de las URL de la API
     let url = '';
 
     url += 'https://uinames.com/api/?'
@@ -36,8 +36,26 @@ function getData(event) {
         url += `amount=${numNombres}&`;
     }
 
-    console.log(url)
+    //Obtencion de los datos y dibujado en el DOM
+    let names;
+    const xhr = new XMLHttpRequest();
 
+    xhr.open('GET',url,true);
+
+    xhr.onload = function(){
+        let names = JSON.parse(xhr.responseText);
+        let listNames = document.getElementById('listNames');
+        listNames.innerHTML = '';
+        let li ;
+        for (const namePerson of names) {
+            li = document.createElement('li');
+            li.classList.add('list-group-item');
+            li.textContent = namePerson.name;
+            listNames.appendChild(li);
+        }
+    }
+
+    xhr.send();
 
 }
 
