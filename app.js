@@ -37,7 +37,6 @@ function getData(event) {
     }
 
     //Obtencion de los datos y dibujado en el DOM
-    let names;
     const xhr = new XMLHttpRequest();
 
     xhr.open('GET',url,true);
@@ -45,14 +44,18 @@ function getData(event) {
     xhr.onload = function(){
         let names = JSON.parse(xhr.responseText);
         let listNames = document.getElementById('listNames');
-        listNames.innerHTML = '';
+        let fragmentNames = document.createDocumentFragment();
+        listNames.style.marginBottom = '30px';
+        listNames.innerHTML = ``;
         let li ;
         for (const namePerson of names) {
             li = document.createElement('li');
             li.classList.add('list-group-item');
             li.textContent = namePerson.name;
-            listNames.appendChild(li);
+            fragmentNames.appendChild(li);
         }
+        listNames.appendChild(fragmentNames);
+        
     }
 
     xhr.send();
