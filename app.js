@@ -37,6 +37,7 @@ function getData(event) {
     }
 
     //Obtencion de los datos y dibujado en el DOM
+    /*
     const xhr = new XMLHttpRequest();
 
     xhr.open('GET',url,true);
@@ -60,5 +61,29 @@ function getData(event) {
 
     xhr.send();
 
+    */
+    //CAMBIANDO DE AJAX A FETCH API
+    
+    fetch(url)
+    .then((resolve)=>{
+        return resolve.json();
+    })
+    .then((names)=>{
+        let listNames = document.getElementById('listNames');
+        let fragmentNames = document.createDocumentFragment();
+        listNames.style.marginBottom = '30px';
+        listNames.innerHTML = ``;
+        let li ;
+        for (const namePerson of names) {
+            li = document.createElement('li');
+            li.classList.add('list-group-item');
+            li.textContent = namePerson.name;
+            fragmentNames.appendChild(li);
+        }
+        listNames.appendChild(fragmentNames);
+    })
+    .catch((reject)=>{
+        console.log(reject);
+    })
 }
 
